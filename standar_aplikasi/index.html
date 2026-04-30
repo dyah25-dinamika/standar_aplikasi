@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standar Tata Kelola Aplikasi Mahasiswa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: #f5f5f5; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; padding: 30px; border-radius: 10px; margin-bottom: 20px; }
+        header h1 { font-size: 1.8rem; margin-bottom: 5px; }
+        header p { opacity: 0.9; }
+        .section { background: white; padding: 25px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section h2 { color: #1e3a5f; font-size: 1.3rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #1e3a5f; }
+        .section h3 { color: #2d5a87; font-size: 1rem; margin: 15px 0 10px; }
+        ul, ol { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .checklist { background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .checklist li { list-style: none; padding-left: 25px; position: relative; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; color: #1e3a5f; font-size: 1.2rem; }
+        .stack-badge { display: inline-block; background: #1e3a5f; color: white; padding: 3px 12px; border-radius: 15px; font-size: 0.85rem; margin-right: 8px; margin-bottom: 5px; }
+        .priority { color: #c53030; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #1e3a5f; color: white; }
+        tr:hover { background: #f8f9fa; }
+        .note { background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        .status { display: inline-block; padding: 3px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
+        .status-wajib { background: #c53030; color: white; }
+        .status-rekomendasi { background: #38a169; color: white; }
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Standar Tata Kelola Aplikasi Mahasiswa</h1>
+            <p>IT Server Deployment Guidelines v1.0</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Pendahuluan</h2>
+            <p>Dokumen ini menetapkan standar kualitas aplikasi yang wajib dipenuhi mahasiswa sebelum Deploy ke server IT. Standar ini bertujuan memastikan:</p>
+            <ul>
+                <li>Keamanan sistem server tetap terjaga</li>
+                <li>Aplikasi memiliki kualitas kode yang baik dan maintainable</li>
+                <li>Terhindar dari kerentanan keamanan (SQL Injection, XSS, CSRF, dll)</li>
+                <li>Dokumentasi lengkap untuk proses debugging dan maintenance</li>
+                <li>Konsistensi struktur project antar mahasiswa</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Stack Teknologi yang Didukung</h2>
+            <div style="margin: 15px 0;">
+                <span class="stack-badge">Laravel</span>
+                <span class="stack-badge">Python</span>
+                <span class="stack-badge">PHP Native</span>
+                <span class="stack-badge">JavaScript</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✅ Checklist Deploy Wajib</h2>
+            <div class="checklist">
+                <li> Aplikasi sudah diuji di environment lokal (localhost)</li>
+                <li> Semua dependency sudah ter-install dengan benar</li>
+                <li> File konfigurasi environment (.env) sudah dikonfigurasi</li>
+                <li> Database migration/structure sudah ready</li>
+                <li> Tidak ada credential/test data hardcoded</li>
+                <li> Error logging sudah aktif</li>
+                <li> Cache sudah dikonfigurasi dengan benar</li>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔒 Standar Keamanan (WAJIB)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th> Kategori </th>
+                        <th> Persyaratan </th>
+                        <th> Status </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> SQL Injection </td>
+                        <td> Semua input wajib menggunakan parameterized queries / ORM </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> XSS </td>
+                        <td> Output encoding pada semua user input, gunakan sanitization </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> CSRF </td>
+                        <td> Implementasi CSRF token untuk semua form </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> Authentication </td>
+                        <td> Password hash dengan bcrypt/argon2, salt unik </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> Session </td>
+                        <td> HttpOnly, Secure, SameSite cookies </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> File Upload </td>
+                        <td> Validasi tipe file, simpan di luar webroot </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> API Security </td>
+                        <td> Rate limiting, JWT/explicit auth </td>
+                        <td> <span class="status status-rekomendasi">REKOMENDASI</span> </td>
+                    </tr>
+                    <tr>
+                        <td> SSL/TLS </td>
+                        <td> Konfigurasi HTTPS dengan SSL valid </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📝 Standar Kode per Stack</h2>
+            
+            <h3>Laravel</h3>
+            <ul>
+                <li> Gunakan struktur folder Laravel standar (app/Http/Controllers, Models, dll)</li>
+                <li> Gunakan Eloquent ORM untuk database operations</li>
+                <li> Validasi request dengan Form Requests</li>
+                <li> Gunakan Laravel Mix/Vite untuk asset compilation</li>
+                <li> Konfigurasi environment menggunakan .env (bukan hardcode)</li>
+                <li> Gunakan Laravel logging untuk error tracking</li>
+            </ul>
+
+            <h3>Python</h3>
+            <ul>
+                <li> Gunakan virtual environment (venv) untuk isolate dependencies</li>
+                <li> Gunakan requirements.txt atau poetry/conda untuk dependency management</li>
+                <li> Struktur project: app/, config/, models/, routes/</li>
+                <li> Gunakan ORM (SQLAlchemy/Django ORM) untuk database</li>
+                <li> Pisahkan config dari kode (environment variables)</li>
+            </ul>
+
+            <h3>PHP Native</h3>
+            <ul>
+                <li> Gunakan struktur MVC (Models, Views, Controllers)</li>
+                <li> Gunakan Prepared Statements untuk SQL queries</li>
+                <li> Pisahkan config (database.php, config.php)</li>
+                <li> Gunakan autoloader untuk class loading</li>
+                <li> Hindari penggunaan eval() dan inline PHP</li>
+                <li> Pisahkan business logic dari presentation layer</li>
+            </ul>
+
+            <h3>JavaScript</h3>
+            <ul>
+                <li> Gunakan Node.js LTS version</li>
+                <li> Package.json dengan script yang jelas</li>
+                <li> Gunakan ESLint dan Prettier untuk code formatting</li>
+                <li> Pisahkan config dari kode (dotenv)</li>
+                <li> Backend: Express.js dengan struktur route/controller</li>
+                <li> Frontend: Build tool (Vite/Webpack), modular components</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📚 Standar Dokumentasi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th> Dokumen </th>
+                        <th> Deskripsi </th>
+                        <th> Wajib </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> README.md </td>
+                        <td> Cara install, setup, dan cara jalankan aplikasi </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> .env.example </td>
+                        <td> Template variabel environment (tanpa nilai sensitif) </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> Database Schema </td>
+                        <td> ERD atau migration file </td>
+                        <td> <span class="status status-wajib">WAJIB</span> </td>
+                    </tr>
+                    <tr>
+                        <td> API Documentation </td>
+                        <td> Endpoint list, method, parameter, response </td>
+                        <td> <span class="status status-rekomendasi">REKOMENDASI</span> </td>
+                    </tr>
+                    <tr>
+                        <td> Changelog </td>
+                        <td> Riwayat perubahan versi </td>
+                        <td> <span class="status status-rekomendasi">REKOMENDASI</span> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🗂️ Standar Struktur Project</h2>
+            <pre style="background:#1e3a5f;color:#fff;padding:15px;border-radius:8px;overflow-x:auto;">
+project-root/
+├── README.md
+├── .env.example
+├── .gitignore
+├── src/ atau app/
+├── config/
+├── routes/
+├── views/ 或 templates/
+├── public/
+├── database/ 或 migrations/
+├── tests/
+└── docs/
+            </pre>
+        </div>
+
+        <div class="section">
+            <h2>🔍 Proses Review Deploy</h2>
+            <ol>
+                <li><strong>Submit Aplikasi:</strong> Mahasiswa submit aplikasi ke repository yang ditentukan</li>
+                <li><strong>Review Awal:</strong> Admin IT cek kelengkapan file dan struktur</li>
+                <li><strong>Security Scan:</strong> Scanning kerentanan menggunakan tools otomatis</li>
+                <li><strong>Code Review:</strong> Review kode oleh team IT</li>
+                <li><strong>Deploy Test:</strong> Deploy ke staging environment untuk pengujian</li>
+                <li><strong>Approval:</strong> Jika semua standar terpenuhi, approval deploy ke production</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Larangan</h2>
+            <ul>
+                <li><span class="priority">DILARANG</span> Menyimpan credential di repository (.env的真实 value)</li>
+                <li><span class="priority">DILARANG</span> Menggunakan password default/admin untuk aplikasi</li>
+                <li><span class="priority">DILARANG</span> Menyimpan file sensitif di public directory</li>
+                <li><span class="priority">DILARANG</span> Men-deploy aplikasi tanpa testing</li>
+                <li><span class="priority">DILARANG</span> Mengaktifkan debug mode di production</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <strong>📌 Catatan Penting:</strong><br>
+            Aplikasi yang tidak memenuhi standar ini TIDAK AKAN di-deploy ke server production. Mahasiswa bertanggung jawab penuh untuk memastikan aplikasi memenuhi semua persyaratan sebelum mengajukan deploy.
+        </div>
+
+        <footer>
+            <p>IT Server Administration &copy; 2024<br>
+            Untuk pertanyaan, hubungi admin IT melalui channel yang tersedia</p>
+        </footer>
+    </div>
+</body>
+</html>
